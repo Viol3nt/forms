@@ -1,0 +1,81 @@
+<h2>Template: Dynamics</h2>
+<hr />
+
+<form (ngSubmit)="save()" autocomplete="ÑÖcompletes" #dynamicForm="ngForm">
+  <div class="row mb-3">
+    <label class="col-sm-3 col-form-label">Name</label>
+    <div class="col-sm-9">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Name..."
+        [ngModel]="person.name"
+        name="name"
+        required
+        minlength="5"
+      />
+      <span class="form-text text-danger" *ngIf="validateName()"
+        >Must be at least 5 letters.</span
+      >
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <label class="col-sm-3 col-form-label">Add</label>
+    <div class="col-sm-9">
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="newGame"
+          name="add"
+          placeholder="Add Favorite..."
+          (keyup.enter)="add()"
+        />
+        <button class="btn btn-outline-primary" type="button" (click)="add()">
+          Add
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <label class="col-sm-3 col-form-label">Favorites</label>
+    <div class="col-sm-9">
+      <div
+        *ngFor="let favorite of person.favorites; let i = index"
+        class="input-group mb-1"
+      >
+        <input
+          [(ngModel)]="favorite.name"
+          class="form-control"
+          name="favorite_{{ i }}"
+          required
+        />
+        <button
+          class="btn btn-outline-danger"
+          type="button"
+          (click)="delete(i)"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col d-flex justify-content-end">
+      <button
+        class="btn btn-primary"
+        type="button"
+        [disabled]="dynamicForm.invalid"
+        (click)="save()"
+      >
+        Save
+      </button>
+    </div>
+  </div>
+</form>
+
+<span>Person</span>
+<pre>{{ person | json }}</pre>
